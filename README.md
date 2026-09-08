@@ -1,55 +1,100 @@
-# Soft Matter · Jelly Lab
+# Soft Jelly Interaction
 
-[简体中文](README.md) ｜ **English**
+An interactive soft-body jelly simulation exploring deformation, elasticity, material response, and tactile digital interaction in real time.
 
-An interactive Three.js soft-body jelly experiment with a rounded pudding silhouette: a smaller flat top, gently fluted sides, and a broad rounded base. The page focuses on material, deformation, and tactile interaction without surrounding video or social UI.
+**[Launch the interactive experience](https://iiiiiiiian.github.io/soft-jelly-interaction/)**
 
-## Live demo
+[![Soft Jelly Interaction](docs/soft-matter-jelly-lab.png)](https://iiiiiiiian.github.io/soft-jelly-interaction/)
 
-**[Open the interactive Jelly Lab](https://iiiiiiiian.github.io/soft-jelly-interaction/)**
+## Overview
 
-[![Soft Matter interactive Jelly Lab](docs/soft-matter-jelly-lab.png)](https://iiiiiiiian.github.io/soft-jelly-interaction/)
+Soft Jelly Interaction is a browser-based experiment built around a deformable 3D jelly form. Rather than treating the object as a predefined animation, the project simulates its physical structure in real time, allowing users to grab, pull, release, and observe localized deformation across the surface.
+
+The project focuses on the relationship between soft-body physics, translucent material rendering, and direct interaction.
 
 ## Interaction
 
-- Drag any visible point on the jelly with a mouse or finger.
-- Release it to let elasticity and inertia continue the motion.
-- Choose Berry, Mint, or Honey.
-- Adjust firmness and internal damping independently.
-- Use Reset or press `R` to restore the shape while retaining the material settings.
-- The sliders support arrow keys, `Home`, and `End`.
+- Click or touch anywhere on the jelly surface and drag it.
+- Pulling different regions produces localized deformation.
+- Release the jelly to observe its elastic and inertial response.
+- Switch between Berry, Mint, and Honey material variations.
+- Adjust stiffness and internal damping independently.
+- Reset the jelly while preserving the current material parameters.
+- Sliders support keyboard controls including arrow keys, `Home`, and `End`.
 
-## Run locally
+## Technical Implementation
 
-Requires Node.js 22.13 or newer.
+### Soft-Body Simulation
 
-```sh
+`lib/soft-body.ts` implements a CPU-based XPBD soft-body solver.
+
+The simulation uses:
+
+- 343 particles
+- 1,296 tetrahedral volume constraints
+- elastic edge constraints
+- gravity
+- ground friction
+- velocity damping
+- a fixed 120 Hz simulation step
+
+Simulation states are interpolated to drive a higher-resolution visual surface.
+
+Raycast barycentric coordinates map the exact grab position on the rendered mesh back to simulation particles. This allows interaction to create localized stretching and deformation rather than simply transforming or scaling the entire object.
+
+### Rendering
+
+`lib/jelly.ts` contains the Three.js rendering system.
+
+The visual material combines:
+
+- physically based transmission
+- double-sided surfaces
+- clearcoat
+- light absorption
+- approximate thickness information
+
+- refracted environmental lighting
+- dynamically updated normals
+- soft contact shadows
+
+The renderer prioritizes WebGPU and falls back to WebGL2 when WebGPU is unavailable.
+
+### Interface
+
+`app/page.tsx` manages interaction controls and the application interface.
+
+The project runs entirely in the browser and does not require server-side data storage.
+
+## Running Locally
+
+Requires Node.js 22.13 or later.
+
+```bash
 npm install
-npm run dev -- --port 4399
+npm run dev
 ```
 
-Open the address printed in the terminal. To create a static production build:
+Open the localhost address displayed in the terminal.
 
-```sh
+To create a production build:
+
+```bash
 npm run build
 ```
 
-The generated site is in `dist/client/` and can be served by any static HTTP server. WebGPU requires localhost or HTTPS. The renderer automatically falls back to WebGL2 when needed.
+The generated static site can be deployed through GitHub Pages or another static hosting service.
 
-## Implementation
-
-`lib/soft-body.ts` contains a CPU XPBD soft-body solver with 343 particles, 1,296 tetrahedral volume constraints, elastic edge constraints, gravity, floor friction, and velocity damping. A fixed 120 Hz solver drives a finer smooth surface through interpolation. Raycast barycentric coordinates map the precise grab point to simulation particles, creating local stretch instead of scaling the entire object.
-
-`lib/jelly.ts` contains the Three.js WebGPURenderer scene. Transmissive physical node materials, double-sided surfaces, clearcoat, absorption, an approximate thickness field, refracted studio lighting, updated normals, and a dynamic soft contact shadow create the wet optical appearance. The scene prefers WebGPU and includes a WebGL2 fallback.
-
-`app/page.tsx` contains the controls and an optional, feature-detected WebMCP `configure_jelly` tool. The project has no server-side data storage or external runtime asset dependency.
-
-## Validation
-
-Browser pointer drags were tested on the front, top, and sides of the surface with both WebGPU and WebGL2 rendering. Grabs produce local deformation, and motion continues after release before gradually decaying. Color controls, keyboard slider controls, reset behavior, and material softness and damping limits were also checked.
+WebGPU requires HTTPS or localhost. Browsers without WebGPU support automatically fall back to WebGL2.
 
 ## AI-Assisted Development
 
-This project was developed with AI-assisted coding and iteration using **GPT-6 Astra**, including implementation, debugging, interaction refinement, and technical development.
+This project was developed with AI-assisted coding and iteration using **GPT-6 Astra**, including support for implementation, debugging, interaction refinement, and technical development.
 
 The project concept, interaction direction, visual decisions, testing, and final implementation were developed through an iterative human-AI workflow.
+
+## Repository
+
+**Source:** [github.com/iiiiiiiian/soft-jelly-interaction](https://github.com/iiiiiiiian/soft-jelly-interaction)
+
+**Live:** [iiiiiiiian.github.io/soft-jelly-interaction](https://iiiiiiiian.github.io/soft-jelly-interaction/)
