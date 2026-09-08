@@ -1,49 +1,55 @@
-# Soft Matter · 果冻实验室
+# Soft Matter · Jelly Lab
 
-**简体中文** ｜ [English](README_EN.md)
+[简体中文](README.md) ｜ **English**
 
-一个可交互的 Three.js 软体果冻实验。果冻采用圆润的布丁造型：顶部较小且平缓，侧面带有轻微凹槽，底部宽大圆润。页面专注于材质、形变与手感实验，不包含视频或社交平台界面。
+An interactive Three.js soft-body jelly experiment with a rounded pudding silhouette: a smaller flat top, gently fluted sides, and a broad rounded base. The page focuses on material, deformation, and tactile interaction without surrounding video or social UI.
 
-## 在线体验
+## Live demo
 
-**[点击体验果冻实验室](https://iiiiiiiian.github.io/soft-jelly-interaction/)**
+**[Open the interactive Jelly Lab](https://iiiiiiiian.github.io/soft-jelly-interaction/)**
 
-[![Soft Matter 果冻实验室](docs/soft-matter-jelly-lab.png)](https://iiiiiiiian.github.io/soft-jelly-interaction/)
+[![Soft Matter interactive Jelly Lab](docs/soft-matter-jelly-lab.png)](https://iiiiiiiian.github.io/soft-jelly-interaction/)
 
-## 玩法
+## Interaction
 
-- 用鼠标或手指拖动果冻表面的任意位置。
-- 松手后，果冻会根据弹性与惯性继续运动。
-- 可以切换莓果、薄荷和蜂蜜三种颜色。
-- 可以分别调节硬度与内部阻尼。
-- 点击“重置”或按 `R` 键恢复果冻形状，当前材质参数会保留。
-- 滑块支持方向键、`Home` 和 `End` 键操作。
+- Drag any visible point on the jelly with a mouse or finger.
+- Release it to let elasticity and inertia continue the motion.
+- Choose Berry, Mint, or Honey.
+- Adjust firmness and internal damping independently.
+- Use Reset or press `R` to restore the shape while retaining the material settings.
+- The sliders support arrow keys, `Home`, and `End`.
 
-## 本地运行
+## Run locally
 
-需要 Node.js 22.13 或更高版本。
+Requires Node.js 22.13 or newer.
 
 ```sh
 npm install
 npm run dev -- --port 4399
 ```
 
-打开终端中显示的地址。生成静态生产版本：
+Open the address printed in the terminal. To create a static production build:
 
 ```sh
 npm run build
 ```
 
-生成的网站位于 `dist/client/`，可以通过任意静态 HTTP 服务器运行。WebGPU 需要 localhost 或 HTTPS；不支持 WebGPU 时会自动回退到 WebGL2。
+The generated site is in `dist/client/` and can be served by any static HTTP server. WebGPU requires localhost or HTTPS. The renderer automatically falls back to WebGL2 when needed.
 
-## 实现方式
+## Implementation
 
-`lib/soft-body.ts` 包含一个在 CPU 上运行的 XPBD 软体求解器：343 个粒子、1,296 个四面体体积约束，以及弹性边约束、重力、地面摩擦和速度阻尼。固定 120 Hz 的求解器通过插值驱动更细腻的平滑表面。射线检测的重心坐标会把精确抓取位置映射到模拟粒子，因此拖动会产生局部拉伸，而不是简单缩放整个模型。
+`lib/soft-body.ts` contains a CPU XPBD soft-body solver with 343 particles, 1,296 tetrahedral volume constraints, elastic edge constraints, gravity, floor friction, and velocity damping. A fixed 120 Hz solver drives a finer smooth surface through interpolation. Raycast barycentric coordinates map the precise grab point to simulation particles, creating local stretch instead of scaling the entire object.
 
-`lib/jelly.ts` 包含 Three.js WebGPURenderer 场景。透光物理节点材质、双面表面、清漆、光线吸收、近似厚度场、折射环境光、动态法线与柔和接触阴影，共同形成湿润通透的视觉效果。场景优先使用 WebGPU，并提供 WebGL2 回退方案。
+`lib/jelly.ts` contains the Three.js WebGPURenderer scene. Transmissive physical node materials, double-sided surfaces, clearcoat, absorption, an approximate thickness field, refracted studio lighting, updated normals, and a dynamic soft contact shadow create the wet optical appearance. The scene prefers WebGPU and includes a WebGL2 fallback.
 
-`app/page.tsx` 包含交互控制和经过功能检测的可选 WebMCP `configure_jelly` 工具。项目没有服务端数据存储，也不依赖外部运行时资源。
+`app/page.tsx` contains the controls and an optional, feature-detected WebMCP `configure_jelly` tool. The project has no server-side data storage or external runtime asset dependency.
 
-## 验证
+## Validation
 
-项目已在浏览器中测试果冻正面、顶部和侧面的拖动交互，并验证 WebGPU 与 WebGL2 渲染。抓取时会产生局部形变，松手后运动会延续并逐渐衰减。颜色切换、键盘控制滑块、重置功能、材质软硬与阻尼边界也已检查。
+Browser pointer drags were tested on the front, top, and sides of the surface with both WebGPU and WebGL2 rendering. Grabs produce local deformation, and motion continues after release before gradually decaying. Color controls, keyboard slider controls, reset behavior, and material softness and damping limits were also checked.
+
+## AI-Assisted Development
+
+This project was developed with AI-assisted coding and iteration using **GPT-6 Astra**, including implementation, debugging, interaction refinement, and technical development.
+
+The project concept, interaction direction, visual decisions, testing, and final implementation were developed through an iterative human-AI workflow.
