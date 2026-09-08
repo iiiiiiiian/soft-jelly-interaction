@@ -6,9 +6,9 @@
 
 ## 在线体验
 
-**[点击体验果冻实验室](https://54singa.github.io/soft-matter-jelly-lab/)**
+**[点击体验果冻实验室](https://iiiiiiiian.github.io/soft-jelly-interaction/)**
 
-[![Soft Matter 果冻实验室](docs/soft-matter-jelly-lab.png)](https://54singa.github.io/soft-matter-jelly-lab/)
+[![Soft Matter 果冻实验室](docs/soft-matter-jelly-lab.png)](https://iiiiiiiian.github.io/soft-jelly-interaction/)
 
 ## 玩法
 

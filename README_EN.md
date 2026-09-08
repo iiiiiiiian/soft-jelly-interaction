@@ -6,9 +6,9 @@ An interactive Three.js soft-body jelly experiment with a rounded pudding silhou
 
 ## Live demo
 
-**[Open the interactive Jelly Lab](https://54singa.github.io/soft-matter-jelly-lab/)**
+**[Open the interactive Jelly Lab](https://iiiiiiiian.github.io/soft-jelly-interaction/)**
 
-[![Soft Matter interactive Jelly Lab](docs/soft-matter-jelly-lab.png)](https://54singa.github.io/soft-matter-jelly-lab/)
+[![Soft Matter interactive Jelly Lab](docs/soft-matter-jelly-lab.png)](https://iiiiiiiian.github.io/soft-jelly-interaction/)
 
 ## Interaction
 

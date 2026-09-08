@@ -3,7 +3,7 @@ import tailwindcss from '@tailwindcss/postcss';
 import vinext from 'vinext';
 import { defineConfig } from 'vite';
 export default defineConfig({
-  base: process.env.GITHUB_ACTIONS === 'true' ? '/soft-matter-jelly-lab/' : '/',
+  base: process.env.GITHUB_ACTIONS === 'true' ? '/soft-jelly-interaction/' : '/',
   css: { postcss: { plugins: [tailwindcss()] } },
   plugins: [
     vinext(),

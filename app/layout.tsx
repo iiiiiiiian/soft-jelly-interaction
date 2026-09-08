@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   icons: {
     icon:
       process.env.GITHUB_ACTIONS === 'true'
-        ? '/soft-matter-jelly-lab/favicon.svg'
+        ? '/soft-jelly-interaction/favicon.svg'
         : '/favicon.svg',
   },
   description:
